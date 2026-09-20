@@ -6,6 +6,12 @@ var health = 40
 
 func take_damage(amount) -> void:
 	health -= amount
+	print("Enemies Hp: " + str(int(health)))
+	
+	$AnimatedSprite2D.modulate = Color.RED
+	
+	await get_tree().create_timer(0.1).timeout
+	$AnimatedSprite2D.modulate = Color.WHITE
 	
 	if health <= 0:
 		queue_free()

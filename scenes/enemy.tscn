@@ -340,3 +340,5 @@ animation = &"walk_right"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=255892783]
 position = Vector2(0, 1)
 shape = SubResource("CircleShape2D_xwavj")
+
+[node name="DamageTimer" type="Timer" parent="." unique_id=780001089]
