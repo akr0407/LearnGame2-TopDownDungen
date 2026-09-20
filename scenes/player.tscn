@@ -505,7 +505,7 @@ script = ExtResource("1_g2els")
 sprite_frames = SubResource("SpriteFrames_hs3mr")
 animation = &"idle_up"
 autoplay = "idle_down"
-frame_progress = 0.78695405
+frame_progress = 0.3605137
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=413312621]
 position = Vector2(0, 6)
@@ -514,3 +514,7 @@ shape = SubResource("CircleShape2D_g2els")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=288727679]
 zoom = Vector2(3, 3)
+
+[node name="AttackArea" type="Area2D" parent="." unique_id=333671000]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=394992478]
