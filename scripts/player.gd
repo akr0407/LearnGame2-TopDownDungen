@@ -4,6 +4,11 @@ const SPEED = 100.0
 var facing_direction = "down"
 var is_attacking = false
 var damage_dealt = false
+var player_health = 100
+
+func take_damage(amount) -> void:
+	player_health -= amount
+	print("Player Hp: " + str(int(player_health)))
 
 func _physics_process(_delta: float) -> void:
 	var direction = Input.get_vector(
