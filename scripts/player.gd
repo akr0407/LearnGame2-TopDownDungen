@@ -12,10 +12,19 @@ var is_dead = false
 signal died
 
 func take_damage(amount) -> void:
-	if is_dead == true:
+	if is_dead or is_hurt:
 		return
 		
 	is_hurt = true
+	
+	if facing_direction == "right":
+		$AnimatedSprite2D.play("hurt_right")
+	elif facing_direction == "left":
+		$AnimatedSprite2D.play("hurt_left")
+	elif facing_direction == "up":
+		$AnimatedSprite2D.play("hurt_up")
+	elif facing_direction == "down":
+		$AnimatedSprite2D.play("hurt_down")
 	
 	player_health = max(player_health - amount, 0)
 	
@@ -45,26 +54,8 @@ func _physics_process(_delta: float) -> void:
 			$AnimatedSprite2D.play("death_down")
 	elif is_hurt == true:
 		velocity = Vector2.ZERO
-		
-		if facing_direction == "right":
-			$AnimatedSprite2D.play("hurt_right")
-		elif facing_direction == "left":
-			$AnimatedSprite2D.play("hurt_left")
-		elif facing_direction == "up":
-			$AnimatedSprite2D.play("hurt_up")
-		elif facing_direction == "down":
-			$AnimatedSprite2D.play("hurt_down")
 	elif is_attacking == true:
 		velocity = Vector2.ZERO
-		
-		if facing_direction == "right":
-			$AnimatedSprite2D.play("attack_right")
-		elif facing_direction == "left":
-			$AnimatedSprite2D.play("attack_left")
-		elif facing_direction == "up":
-			$AnimatedSprite2D.play("attack_up")
-		elif facing_direction == "down":
-			$AnimatedSprite2D.play("attack_down")
 	else:
 		if direction != Vector2.ZERO:
 			if direction.x > 0:
@@ -99,18 +90,22 @@ func _physics_process(_delta: float) -> void:
 			is_attacking = true
 			damage_dealt = false
 			$AttackArea.position = Vector2(0, -16)
+			$AnimatedSprite2D.play("attack_up")
 		elif facing_direction == "down":
 			is_attacking = true
 			damage_dealt = false
 			$AttackArea.position = Vector2(0, 16)
+			$AnimatedSprite2D.play("attack_down")
 		elif facing_direction == "right":
 			is_attacking = true
 			damage_dealt = false
 			$AttackArea.position = Vector2(16, 0)
+			$AnimatedSprite2D.play("attack_right")
 		elif facing_direction == "left":
 			is_attacking = true
 			damage_dealt = false
 			$AttackArea.position = Vector2(-16, 0)
+			$AnimatedSprite2D.play("attack_left")
 			
 
 
@@ -132,7 +127,7 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 
 
 func _on_animated_sprite_2d_frame_changed() -> void:
-	if is_attacking == true and $AnimatedSprite2D.frame == 3:
+	if is_attacking == true and $AnimatedSprite2D.frame == 3 and not damage_dealt:
 		var bodies = $AttackArea.get_overlapping_bodies()
 		damage_dealt = true
 		
