@@ -1,11 +1,15 @@
 extends CharacterBody2D
 
 const SPEED = 100.0
+
 var facing_direction = "down"
 var is_attacking = false
 var damage_dealt = false
 var player_health = 100
 var is_hurt = false
+var is_dead = false
+
+signal died
 
 func take_damage(amount) -> void:
 	is_hurt = true
@@ -13,6 +17,9 @@ func take_damage(amount) -> void:
 	player_health -= amount
 	
 	print("Player Hp: " + str(int(player_health)))
+	
+	if player_health <= 0:
+		is_dead = true
 
 func _physics_process(_delta: float) -> void:
 	var direction = Input.get_vector(
@@ -22,17 +29,17 @@ func _physics_process(_delta: float) -> void:
 		"move_down"
 	)
 	
-	if is_attacking == true:
+	if is_dead == true:
 		velocity = Vector2.ZERO
 		
 		if facing_direction == "right":
-			$AnimatedSprite2D.play("attack_right")
+			$AnimatedSprite2D.play("death_right")
 		elif facing_direction == "left":
-			$AnimatedSprite2D.play("attack_left")
+			$AnimatedSprite2D.play("death_left")
 		elif facing_direction == "up":
-			$AnimatedSprite2D.play("attack_up")
+			$AnimatedSprite2D.play("death_up")
 		elif facing_direction == "down":
-			$AnimatedSprite2D.play("attack_down")
+			$AnimatedSprite2D.play("death_down")
 	elif is_hurt == true:
 		velocity = Vector2.ZERO
 		
@@ -44,7 +51,17 @@ func _physics_process(_delta: float) -> void:
 			$AnimatedSprite2D.play("hurt_up")
 		elif facing_direction == "down":
 			$AnimatedSprite2D.play("hurt_down")
-			
+	elif is_attacking == true:
+		velocity = Vector2.ZERO
+		
+		if facing_direction == "right":
+			$AnimatedSprite2D.play("attack_right")
+		elif facing_direction == "left":
+			$AnimatedSprite2D.play("attack_left")
+		elif facing_direction == "up":
+			$AnimatedSprite2D.play("attack_up")
+		elif facing_direction == "down":
+			$AnimatedSprite2D.play("attack_down")
 	else:
 		if direction != Vector2.ZERO:
 			if direction.x > 0:
@@ -105,6 +122,10 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 	
 	if str($AnimatedSprite2D.animation).begins_with("hurt_"):
 		is_hurt = false
+		
+	if str($AnimatedSprite2D.animation).begins_with("death_"):
+		print("Player is Dead")
+		died.emit()
 
 
 func _on_animated_sprite_2d_frame_changed() -> void:
