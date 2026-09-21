@@ -12,7 +12,7 @@ func _process(delta: float) -> void:
 
 
 func _on_player_died() -> void:
-	$UI.visible = true
+	$UI/HUD/GameOverPanel.visible = true
 
 
 func _on_restart_button_pressed() -> void:
