@@ -22,6 +22,9 @@ func take_damage(amount) -> void:
 func _physics_process(_delta: float) -> void:
 	var player = get_tree().get_first_node_in_group("player")
 	#var distance = position.distance_to(player.position)
+	if player.is_dead:
+		velocity = Vector2.ZERO
+		return
 	
 	if not player_in_range:
 		var direction = position.direction_to(player.position)
@@ -75,7 +78,10 @@ func _on_attack_area_2d_body_exited(body: Node2D) -> void:
 
 func _on_damage_timer_timeout() -> void:
 	var player = get_tree().get_first_node_in_group("player")
-		
+	
+	if player.is_dead:
+		return
+	
 	is_attacking = true
 	
 	var direction = position.direction_to(player.position)

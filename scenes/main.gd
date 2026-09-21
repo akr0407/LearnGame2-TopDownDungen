@@ -8,7 +8,8 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	$UI/HUD/HealthBar.value = $Player.player_health
+	$UI/HUD/HealthBar/HealthLabel.text = str($Player.player_health) + " / 100 HP"
 
 
 func _on_player_died() -> void:

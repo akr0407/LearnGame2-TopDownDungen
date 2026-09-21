@@ -1134,6 +1134,21 @@ sources/0 = SubResource("TileSetAtlasSource_sugp2")
 sources/1 = SubResource("TileSetAtlasSource_tefeu")
 sources/2 = SubResource("TileSetAtlasSource_o6xl0")
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tefeu"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o6xl0"]
+bg_color = Color(0.13498446, 0.72416717, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
 [node name="Main" type="Node2D" unique_id=1504608975]
 script = ExtResource("1_tefeu")
 
@@ -1164,11 +1179,25 @@ grow_vertical = 2
 
 [node name="HealthBar" type="ProgressBar" parent="UI/HUD" unique_id=315357698]
 layout_mode = 1
-offset_right = 109.0
-offset_bottom = 27.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 129.0
+offset_bottom = 47.0
+theme_override_styles/background = SubResource("StyleBoxFlat_tefeu")
+theme_override_styles/fill = SubResource("StyleBoxFlat_o6xl0")
 value = 100.0
+show_percentage = false
+
+[node name="HealthLabel" type="Label" parent="UI/HUD/HealthBar" unique_id=1136137251]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 2.0
+offset_right = 98.0
+offset_bottom = 25.0
+text = "100/100 HP"
 
 [node name="GameOverPanel" type="Panel" parent="UI/HUD" unique_id=298944464]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

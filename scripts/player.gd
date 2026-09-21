@@ -12,9 +12,12 @@ var is_dead = false
 signal died
 
 func take_damage(amount) -> void:
-	is_hurt = true
+	if is_dead == true:
+		return
 		
-	player_health -= amount
+	is_hurt = true
+	
+	player_health = max(player_health - amount, 0)
 	
 	print("Player Hp: " + str(int(player_health)))
 	
