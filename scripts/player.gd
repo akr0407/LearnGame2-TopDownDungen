@@ -5,9 +5,13 @@ var facing_direction = "down"
 var is_attacking = false
 var damage_dealt = false
 var player_health = 100
+var is_hurt = false
 
 func take_damage(amount) -> void:
+	is_hurt = true
+		
 	player_health -= amount
+	
 	print("Player Hp: " + str(int(player_health)))
 
 func _physics_process(_delta: float) -> void:
@@ -29,6 +33,18 @@ func _physics_process(_delta: float) -> void:
 			$AnimatedSprite2D.play("attack_up")
 		elif facing_direction == "down":
 			$AnimatedSprite2D.play("attack_down")
+	elif is_hurt == true:
+		velocity = Vector2.ZERO
+		
+		if facing_direction == "right":
+			$AnimatedSprite2D.play("hurt_right")
+		elif facing_direction == "left":
+			$AnimatedSprite2D.play("hurt_left")
+		elif facing_direction == "up":
+			$AnimatedSprite2D.play("hurt_up")
+		elif facing_direction == "down":
+			$AnimatedSprite2D.play("hurt_down")
+			
 	else:
 		if direction != Vector2.ZERO:
 			if direction.x > 0:
@@ -86,7 +102,9 @@ func _on_attack_area_body_entered(body: Node2D) -> void:
 func _on_animated_sprite_2d_animation_finished() -> void:
 	if str($AnimatedSprite2D.animation).begins_with("attack_"):
 		is_attacking = false
-		
+	
+	if str($AnimatedSprite2D.animation).begins_with("hurt_"):
+		is_hurt = false
 
 
 func _on_animated_sprite_2d_frame_changed() -> void:

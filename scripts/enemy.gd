@@ -104,6 +104,6 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 func _on_animated_sprite_2d_frame_changed() -> void:
 	if is_attacking == true and $AnimatedSprite2D.frame == 3 and player_in_range == true:
 		var player = get_tree().get_first_node_in_group("player")
-	
+		
 		player.take_damage(10)
 		
