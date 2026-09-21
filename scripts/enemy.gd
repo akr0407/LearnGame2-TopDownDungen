@@ -21,7 +21,7 @@ func take_damage(amount) -> void:
 
 func _physics_process(_delta: float) -> void:
 	var player = get_tree().get_first_node_in_group("player")
-	var distance = position.distance_to(player.position)
+	#var distance = position.distance_to(player.position)
 	
 	if not player_in_range:
 		var direction = position.direction_to(player.position)
@@ -75,10 +75,7 @@ func _on_attack_area_2d_body_exited(body: Node2D) -> void:
 
 func _on_damage_timer_timeout() -> void:
 	var player = get_tree().get_first_node_in_group("player")
-	
-	if player_in_range == true:
-		player.take_damage(10)
-	
+		
 	is_attacking = true
 	
 	var direction = position.direction_to(player.position)
@@ -102,3 +99,11 @@ func _on_damage_timer_timeout() -> void:
 func _on_animated_sprite_2d_animation_finished() -> void:
 	if str($AnimatedSprite2D.animation).begins_with("attack_"):
 		is_attacking = false
+
+
+func _on_animated_sprite_2d_frame_changed() -> void:
+	if is_attacking == true and $AnimatedSprite2D.frame == 3 and player_in_range == true:
+		var player = get_tree().get_first_node_in_group("player")
+	
+		player.take_damage(10)
+		
