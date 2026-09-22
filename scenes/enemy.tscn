@@ -578,6 +578,9 @@ radius = 8.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_hs3mr"]
 radius = 30.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_kmsdu"]
+radius = 115.0
+
 [node name="Enemy" type="CharacterBody2D" unique_id=795345009]
 script = ExtResource("1_md0e3")
 
@@ -597,8 +600,15 @@ shape = SubResource("CircleShape2D_xwavj")
 position = Vector2(0, 1)
 shape = SubResource("CircleShape2D_hs3mr")
 
+[node name="DetectionArea2D" type="Area2D" parent="." unique_id=200579234]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea2D" unique_id=1370015634]
+shape = SubResource("CircleShape2D_kmsdu")
+
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="frame_changed" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_frame_changed"]
 [connection signal="timeout" from="DamageTimer" to="." method="_on_damage_timer_timeout"]
 [connection signal="body_entered" from="AttackArea2D" to="." method="_on_attack_area_2d_body_entered"]
 [connection signal="body_exited" from="AttackArea2D" to="." method="_on_attack_area_2d_body_exited"]
+[connection signal="body_entered" from="DetectionArea2D" to="." method="_on_detection_area_2d_body_entered"]
+[connection signal="body_exited" from="DetectionArea2D" to="." method="_on_detection_area_2d_body_exited"]

@@ -5,8 +5,17 @@ var facing_direction = "down"
 var health = 40
 var is_attacking = false
 var player_in_range = false
+var player_in_attack_range = false
+#var distance_to_player = 0.0
+
+@export var key_scene: PackedScene
+@export var drops_key = false
+#@export var detection_range = 150
 
 func take_damage(amount) -> void:
+	if health <= 0:
+		return
+
 	health -= amount
 	print("Enemies Hp: " + str(int(health)))
 	
@@ -16,17 +25,21 @@ func take_damage(amount) -> void:
 	$AnimatedSprite2D.modulate = Color.WHITE
 	
 	if health <= 0:
+		if drops_key:
+			var key = key_scene.instantiate()
+			get_parent().add_child(key)
+			key.position = position
+
 		queue_free()
-	
 
 func _physics_process(_delta: float) -> void:
 	var player = get_tree().get_first_node_in_group("player")
-	#var distance = position.distance_to(player.position)
+	#distance_to_player = position.distance_to(player.position)
 	if player.is_dead:
 		velocity = Vector2.ZERO
 		return
 	
-	if not player_in_range:
+	if player_in_range and not player_in_attack_range:
 		var direction = position.direction_to(player.position)
 		
 		velocity = SPEED * direction
@@ -65,15 +78,15 @@ func _physics_process(_delta: float) -> void:
 
 func _on_attack_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
+		$DamageTimer.stop()
 		$DamageTimer.start()
-		player_in_range = true
-		print("Player in orc area")
+		player_in_attack_range = true
 
 
 func _on_attack_area_2d_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		$DamageTimer.stop()
-		player_in_range = false
+		player_in_attack_range = false
 
 
 func _on_damage_timer_timeout() -> void:
@@ -108,8 +121,20 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 
 
 func _on_animated_sprite_2d_frame_changed() -> void:
-	if is_attacking == true and $AnimatedSprite2D.frame == 3 and player_in_range == true:
+	if is_attacking == true and $AnimatedSprite2D.frame == 3 and player_in_attack_range == true:
 		var player = get_tree().get_first_node_in_group("player")
 		
 		player.take_damage(10)
 		
+
+
+func _on_detection_area_2d_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		player_in_range = true
+		print("Player detected in orc attack area")
+
+
+func _on_detection_area_2d_body_exited(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		player_in_range = false
+		print("Player left detection range")

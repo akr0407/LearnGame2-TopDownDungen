@@ -16,36 +16,18 @@ signal died
 func take_damage(amount) -> void:
 	if is_dead or is_hurt:
 		return
-		
+
+	# Reset attack state so it doesn't get stuck if hurt interrupts an attack
+	is_attacking = false
+	damage_dealt = false
 	is_hurt = true
-	
-	if facing_direction == "right":
-		$AnimatedSprite2D.play("hurt_right")
-	elif facing_direction == "left":
-		$AnimatedSprite2D.play("hurt_left")
-	elif facing_direction == "up":
-		$AnimatedSprite2D.play("hurt_up")
-	elif facing_direction == "down":
-		$AnimatedSprite2D.play("hurt_down")
-	
 	player_health = max(player_health - amount, 0)
-	
+
 	print("Player Hp: " + str(int(player_health)))
-	
+
 	if player_health <= 0:
 		is_dead = true
-
-func _physics_process(_delta: float) -> void:
-	var direction = Input.get_vector(
-		"move_left", 
-		"move_right",
-		"move_up",
-		"move_down"
-	)
-	
-	if is_dead == true:
-		velocity = Vector2.ZERO
-		
+		is_hurt = false
 		if facing_direction == "right":
 			$AnimatedSprite2D.play("death_right")
 		elif facing_direction == "left":
@@ -54,7 +36,31 @@ func _physics_process(_delta: float) -> void:
 			$AnimatedSprite2D.play("death_up")
 		elif facing_direction == "down":
 			$AnimatedSprite2D.play("death_down")
-	elif is_hurt == true:
+		return
+
+	if facing_direction == "right":
+		$AnimatedSprite2D.play("hurt_right")
+	elif facing_direction == "left":
+		$AnimatedSprite2D.play("hurt_left")
+	elif facing_direction == "up":
+		$AnimatedSprite2D.play("hurt_up")
+	elif facing_direction == "down":
+		$AnimatedSprite2D.play("hurt_down")
+		
+func _physics_process(_delta: float) -> void:
+	if is_dead:
+		velocity = Vector2.ZERO
+		move_and_slide()
+		return
+
+	var direction = Input.get_vector(
+		"move_left", 
+		"move_right",
+		"move_up",
+		"move_down"
+	)
+	
+	if is_hurt == true:
 		velocity = Vector2.ZERO
 	elif is_attacking == true:
 		velocity = Vector2.ZERO
@@ -86,26 +92,19 @@ func _physics_process(_delta: float) -> void:
 	
 	move_and_slide()
 	
-	
-	if Input.is_action_just_pressed("attack") and not is_attacking:
+	if Input.is_action_just_pressed("attack") and not is_attacking and not is_hurt and not is_dead:
+		is_attacking = true
+		damage_dealt = false
 		if facing_direction == "up":
-			is_attacking = true
-			damage_dealt = false
 			$AttackArea.position = Vector2(0, -16)
 			$AnimatedSprite2D.play("attack_up")
 		elif facing_direction == "down":
-			is_attacking = true
-			damage_dealt = false
 			$AttackArea.position = Vector2(0, 16)
 			$AnimatedSprite2D.play("attack_down")
 		elif facing_direction == "right":
-			is_attacking = true
-			damage_dealt = false
 			$AttackArea.position = Vector2(16, 0)
 			$AnimatedSprite2D.play("attack_right")
 		elif facing_direction == "left":
-			is_attacking = true
-			damage_dealt = false
 			$AttackArea.position = Vector2(-16, 0)
 			$AnimatedSprite2D.play("attack_left")
 			

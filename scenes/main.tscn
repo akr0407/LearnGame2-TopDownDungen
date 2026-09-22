@@ -6,9 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://cs63sie14g0ys" path="res://assets/tileset/decorative_cracks_walls.png" id="2_jyhfs"]
 [ext_resource type="Texture2D" uid="uid://1ryvts62paka" path="res://assets/tileset/decorative_cracks_floor.png" id="3_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://chflsn8wtm20d" path="res://scenes/enemy.tscn" id="5_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://b4dn2g4qmai2" path="res://scenes/key.tscn" id="7_85g3d"]
 [ext_resource type="Script" uid="uid://c7usvtm5eg4c6" path="res://scripts/door.gd" id="7_o6xl0"]
 [ext_resource type="Texture2D" uid="uid://bnjxosgj6em8t" path="res://assets/tileset/doors_lever_chest_animation.png" id="8_tipki"]
-[ext_resource type="Script" uid="uid://18p8xi5151fv" path="res://scripts/key.gd" id="9_85g3d"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tefeu"]
 bg_color = Color(0, 0, 0, 1)
@@ -1176,12 +1176,6 @@ size = Vector2(30, 37.875)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hs3mr"]
 size = Vector2(50.5, 53.625)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_hs3mr"]
-atlas = ExtResource("8_tipki")
-region = Rect2(5.809311, 131.71194, 21.36148, 18.627167)
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_qjvy2"]
-
 [node name="Main" type="Node2D" unique_id=1504608975]
 script = ExtResource("1_tefeu")
 
@@ -1331,11 +1325,12 @@ tile_set = SubResource("TileSet_hs3mr")
 [node name="ExitArea" type="Area2D" parent="." unique_id=1852478541]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExitArea" unique_id=48120043]
-position = Vector2(421, -93)
+position = Vector2(420, -99)
 shape = SubResource("CapsuleShape2D_hs3mr")
 
-[node name="Door" type="StaticBody2D" parent="." unique_id=1452345522]
+[node name="Door" type="StaticBody2D" parent="." unique_id=1452345522 node_paths=PackedStringArray("destination")]
 script = ExtResource("7_o6xl0")
+destination = NodePath("../Room2Spawn")
 
 [node name="Sprite2D" type="Sprite2D" parent="Door" unique_id=874998599]
 position = Vector2(422, 114)
@@ -1351,30 +1346,47 @@ shape = SubResource("RectangleShape2D_kmsdu")
 position = Vector2(422, 110)
 shape = SubResource("RectangleShape2D_hs3mr")
 
-[node name="Key" type="Area2D" parent="." unique_id=1093855421]
-script = ExtResource("9_85g3d")
+[node name="Door2" type="StaticBody2D" parent="." unique_id=659546396]
+script = ExtResource("7_o6xl0")
 
-[node name="Sprite2D" type="Sprite2D" parent="Key" unique_id=481726340]
-position = Vector2(349, 113)
-texture = SubResource("AtlasTexture_hs3mr")
+[node name="Sprite2D" type="Sprite2D" parent="Door2" unique_id=851725953]
+position = Vector2(422, -94)
+texture = SubResource("AtlasTexture_o6xl0")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Key" unique_id=354050876]
-position = Vector2(349, 113)
-shape = SubResource("CircleShape2D_qjvy2")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Door2" unique_id=661916245]
+position = Vector2(421, -97)
+shape = SubResource("RectangleShape2D_kmsdu")
+
+[node name="InteractionArea" type="Area2D" parent="Door2" unique_id=2035622782]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Door2/InteractionArea" unique_id=1317720843]
+position = Vector2(422, -95)
+shape = SubResource("RectangleShape2D_hs3mr")
+
+[node name="Key" parent="." unique_id=2052663126 instance=ExtResource("7_85g3d")]
+position = Vector2(345, -60)
 
 [node name="Player" parent="." unique_id=1009891327 groups=["player"] instance=ExtResource("1_o5qli")]
-position = Vector2(133, 114)
+position = Vector2(107, -178)
+
+[node name="PlayerSpawn" type="Marker2D" parent="." unique_id=1850470511]
+position = Vector2(60, 109)
 
 [node name="Enemy" parent="." unique_id=795345009 groups=["enemies"] instance=ExtResource("5_tbgi4")]
-position = Vector2(183, 172)
+position = Vector2(422, -9)
 
 [node name="Enemy2" parent="." unique_id=1589853220 groups=["enemies"] instance=ExtResource("5_tbgi4")]
 position = Vector2(238, 176)
+key_scene = ExtResource("7_85g3d")
+drops_key = true
+
+[node name="Room2Spawn" type="Marker2D" parent="." unique_id=1294386653]
+position = Vector2(420, 94)
 
 [connection signal="pressed" from="UI/HUD/GameOverPanel/RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="pressed" from="UI/HUD/EscapePanel/PlayAgainButton" to="." method="_on_play_again_button_pressed"]
 [connection signal="pressed" from="UI/HUD/EscapePanel/ExitButton" to="." method="_on_exit_button_pressed"]
 [connection signal="body_entered" from="ExitArea" to="." method="_on_exit_area_body_entered"]
 [connection signal="body_entered" from="Door/InteractionArea" to="Door" method="_on_interaction_area_body_entered"]
-[connection signal="body_entered" from="Key" to="Key" method="_on_body_entered"]
+[connection signal="body_entered" from="Door2/InteractionArea" to="Door2" method="_on_interaction_area_body_entered"]
 [connection signal="died" from="Player" to="." method="_on_player_died"]
