@@ -6,8 +6,10 @@ var facing_direction = "down"
 var is_attacking = false
 var damage_dealt = false
 var player_health = 100
+
 var is_hurt = false
 var is_dead = false
+var has_key = false
 
 signal died
 
