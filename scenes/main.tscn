@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://c3lwrqqshf88v" path="res://scenes/potion.tscn" id="9_ya4ey"]
 [ext_resource type="PackedScene" uid="uid://sohh0ex6ko4y" path="res://scenes/chest.tscn" id="10_choun"]
 [ext_resource type="PackedScene" uid="uid://ct1g0o3yjsaj3" path="res://scenes/lever.tscn" id="12_eb6dy"]
+[ext_resource type="PackedScene" uid="uid://mnnxbwtevxs6" path="res://scenes/trap.tscn" id="13_trceg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tefeu"]
 bg_color = Color(0, 0, 0, 1)
@@ -1371,6 +1372,9 @@ shape = SubResource("RectangleShape2D_kmsdu")
 position = Vector2(422, -95)
 shape = SubResource("RectangleShape2D_hs3mr")
 
+[node name="Trap" parent="." unique_id=1988140263 instance=ExtResource("13_trceg")]
+position = Vector2(220, 58)
+
 [node name="Player" parent="." unique_id=1009891327 groups=["player"] instance=ExtResource("1_o5qli")]
 position = Vector2(107, -178)
 
@@ -1383,7 +1387,7 @@ potion_scene = ExtResource("9_ya4ey")
 drops_potion = true
 
 [node name="Enemy2" parent="." unique_id=1589853220 groups=["enemies"] instance=ExtResource("5_tbgi4")]
-position = Vector2(238, 106)
+position = Vector2(187, 177)
 key_scene = ExtResource("7_85g3d")
 drops_key = true
 
@@ -1411,4 +1415,5 @@ target_door = NodePath("../Door")
 [connection signal="body_entered" from="ExitArea" to="." method="_on_exit_area_body_entered"]
 [connection signal="body_entered" from="Door/InteractionArea" to="Door" method="_on_interaction_area_body_entered"]
 [connection signal="body_entered" from="Door2/InteractionArea" to="Door2" method="_on_interaction_area_body_entered"]
+[connection signal="body_exited" from="Trap" to="Trap" method="_on_body_exited"]
 [connection signal="died" from="Player" to="." method="_on_player_died"]
