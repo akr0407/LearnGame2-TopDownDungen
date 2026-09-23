@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://ct1g0o3yjsaj3"]
+
+[ext_resource type="Script" uid="uid://bhilmsrae88tg" path="res://scripts/lever.gd" id="1_ncfea"]
+[ext_resource type="Texture2D" uid="uid://bnjxosgj6em8t" path="res://assets/tileset/doors_lever_chest_animation.png" id="2_qxmkn"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_neyqp"]
+atlas = ExtResource("2_qxmkn")
+region = Rect2(0, 178.17903, 16.307999, 13.820969)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4kwec"]
+radius = 8.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ncfea"]
+radius = 12.0
+
+[node name="Lever" type="StaticBody2D" unique_id=2077507112]
+script = ExtResource("1_ncfea")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1935427496]
+texture = SubResource("AtlasTexture_neyqp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1683963104]
+shape = SubResource("CircleShape2D_4kwec")
+
+[node name="InteractionArea" type="Area2D" parent="." unique_id=1368480246]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea" unique_id=1595279136]
+shape = SubResource("CircleShape2D_ncfea")
+
+[connection signal="body_entered" from="InteractionArea" to="." method="_on_interaction_area_body_entered"]

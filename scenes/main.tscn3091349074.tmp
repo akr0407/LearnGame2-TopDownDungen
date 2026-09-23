@@ -1379,6 +1379,7 @@ position = Vector2(60, 109)
 
 [node name="Enemy" parent="." unique_id=795345009 groups=["enemies", "room_2_enemies"] instance=ExtResource("5_tbgi4")]
 position = Vector2(379, -11)
+drops_key = null
 potion_scene = ExtResource("9_ya4ey")
 drops_potion = true
 
@@ -1386,6 +1387,7 @@ drops_potion = true
 position = Vector2(238, 106)
 key_scene = ExtResource("7_85g3d")
 drops_key = true
+drops_potion = null
 
 [node name="Room2Spawn" type="Marker2D" parent="." unique_id=1294386653]
 position = Vector2(420, 94)

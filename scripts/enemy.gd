@@ -40,6 +40,8 @@ func take_damage(amount, knockback_direction = Vector2.ZERO) -> void:
 			potion.position = position
 			
 		is_dead = true
+		$DamageTimer.stop()
+		is_attacking = false
 		
 		if facing_direction == "up":
 			$AnimatedSprite2D.play("death_up")
@@ -49,6 +51,8 @@ func take_damage(amount, knockback_direction = Vector2.ZERO) -> void:
 			$AnimatedSprite2D.play("death_right")
 		elif facing_direction == "left":
 			$AnimatedSprite2D.play("death_left")
+		
+		print("Playing death animation: ", $AnimatedSprite2D.animation)
 		
 		return
 		
@@ -122,6 +126,9 @@ func _on_attack_area_2d_body_exited(body: Node2D) -> void:
 
 
 func _on_damage_timer_timeout() -> void:
+	if is_dead:
+		return
+		
 	var player = get_tree().get_first_node_in_group("player")
 	
 	if player.is_dead:
@@ -148,10 +155,13 @@ func _on_damage_timer_timeout() -> void:
 
 
 func _on_animated_sprite_2d_animation_finished() -> void:
+	print("Animation finished: ", $AnimatedSprite2D.animation)
+
 	if str($AnimatedSprite2D.animation).begins_with("attack_"):
 		is_attacking = false
-	
+
 	if str($AnimatedSprite2D.animation).begins_with("death_"):
+		print("Death animation finished - removing enemy")
 		queue_free()
 
 func _on_animated_sprite_2d_frame_changed() -> void:
