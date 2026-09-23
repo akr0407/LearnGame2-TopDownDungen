@@ -1180,6 +1180,7 @@ size = Vector2(50.5, 53.625)
 
 [node name="Main" type="Node2D" unique_id=1504608975]
 script = ExtResource("1_tefeu")
+chest_scene = ExtResource("10_choun")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=743701439]
 
@@ -1371,13 +1372,13 @@ position = Vector2(107, -178)
 [node name="PlayerSpawn" type="Marker2D" parent="." unique_id=1850470511]
 position = Vector2(60, 109)
 
-[node name="Enemy" parent="." unique_id=795345009 groups=["enemies"] instance=ExtResource("5_tbgi4")]
-position = Vector2(235, 123)
+[node name="Enemy" parent="." unique_id=795345009 groups=["enemies", "room_2_enemies"] instance=ExtResource("5_tbgi4")]
+position = Vector2(379, -11)
 potion_scene = ExtResource("9_ya4ey")
 drops_potion = true
 
 [node name="Enemy2" parent="." unique_id=1589853220 groups=["enemies"] instance=ExtResource("5_tbgi4")]
-position = Vector2(224, 179)
+position = Vector2(238, 106)
 key_scene = ExtResource("7_85g3d")
 drops_key = true
 
@@ -1390,6 +1391,9 @@ position = Vector2(422, 164)
 [node name="Chest2" parent="." unique_id=1479062024 instance=ExtResource("10_choun")]
 position = Vector2(427, -45)
 gives_potion = false
+
+[node name="Room2RewardSpawn" type="Marker2D" parent="." unique_id=895617203]
+position = Vector2(339, -63)
 
 [connection signal="pressed" from="UI/HUD/GameOverPanel/RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="pressed" from="UI/HUD/EscapePanel/PlayAgainButton" to="." method="_on_play_again_button_pressed"]

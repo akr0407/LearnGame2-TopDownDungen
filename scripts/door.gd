@@ -18,3 +18,14 @@ func _on_interaction_area_body_entered(body: Node2D) -> void:
 				body.position = destination.position
 		else:
 			print("Player dont have key")
+
+func open_door() -> void:
+	if is_open:
+		return
+		
+	is_open = true
+	
+	$Sprite2D.visible = false
+	$CollisionShape2D.set_deferred("disabled", true)
+	
+	print("Door opened")
