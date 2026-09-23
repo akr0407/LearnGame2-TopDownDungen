@@ -138,5 +138,6 @@ func _on_animated_sprite_2d_frame_changed() -> void:
 		
 		for body in bodies:
 			if body.is_in_group("enemies"):
+				var knockback_direction = position.direction_to(body.position)
 				#print("Attack enemy in area")
-				body.take_damage(10)
+				body.take_damage(10, knockback_direction)

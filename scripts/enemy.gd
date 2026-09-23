@@ -7,6 +7,7 @@ var is_attacking = false
 var player_in_range = false
 var player_in_attack_range = false
 var is_dead = false
+var knockback_velocity = Vector2.ZERO
 #var distance_to_player = 0.0
 
 @export var key_scene: PackedScene
@@ -16,13 +17,15 @@ var is_dead = false
 @export var drops_potion = false
 #@export var detection_range = 150
 
-func take_damage(amount) -> void:
+func take_damage(amount, knockback_direction = Vector2.ZERO) -> void:
 	if health <= 0:
 		return
 
 	health -= amount
 	print("Enemies Hp: " + str(int(health)))
 	
+	knockback_velocity = knockback_direction * 150
+		
 	$AnimatedSprite2D.modulate = Color.RED
 	
 	await get_tree().create_timer(0.1).timeout
@@ -58,6 +61,13 @@ func _physics_process(_delta: float) -> void:
 		velocity = Vector2.ZERO
 		return
 	
+	if knockback_velocity != Vector2.ZERO:
+		velocity = knockback_velocity
+		knockback_velocity = knockback_velocity.move_toward(Vector2.ZERO, 500 * _delta)
+		
+		move_and_slide()
+		return
+		
 	var player = get_tree().get_first_node_in_group("player")
 	#distance_to_player = position.distance_to(player.position)
 	if player.is_dead:
