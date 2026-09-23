@@ -26,10 +26,7 @@ func take_damage(amount, knockback_direction = Vector2.ZERO) -> void:
 	
 	knockback_velocity = knockback_direction * 150
 		
-	$AnimatedSprite2D.modulate = Color.RED
-	
-	await get_tree().create_timer(0.1).timeout
-	$AnimatedSprite2D.modulate = Color.WHITE
+	hit_flash()
 	
 	if health <= 0:
 		if drops_key:
@@ -175,3 +172,9 @@ func _on_detection_area_2d_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		player_in_range = false
 		print("Player left detection range")
+		
+
+func hit_flash() -> void:
+	$AnimatedSprite2D.modulate = Color.RED
+	await get_tree().create_timer(0.1).timeout
+	$AnimatedSprite2D.modulate = Color.WHITE
