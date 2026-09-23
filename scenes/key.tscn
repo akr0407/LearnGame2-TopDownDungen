@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://b4dn2g4qmai2"]
 
 [ext_resource type="Script" uid="uid://18p8xi5151fv" path="res://scripts/key.gd" id="1_fttkb"]
-[ext_resource type="Texture2D" uid="uid://bnjxosgj6em8t" path="res://assets/tileset/doors_lever_chest_animation.png" id="2_wy8tx"]
+[ext_resource type="Texture2D" uid="uid://dokm5i2kgwe4c" path="res://assets/tileset/Objects.png" id="2_fttkb"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hs3mr"]
-atlas = ExtResource("2_wy8tx")
-region = Rect2(5.809311, 131.71194, 21.36148, 18.627167)
+atlas = ExtResource("2_fttkb")
+region = Rect2(64.5842, 1.5564003, 14.741516, 11.334497)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qjvy2"]
 

@@ -13,6 +13,10 @@ var has_key = false
 
 signal died
 
+func heal(amount) -> void:
+	player_health = min(player_health + amount, 100)
+	print("player Hp: " + str(player_health))
+
 func take_damage(amount) -> void:
 	if is_dead or is_hurt:
 		return

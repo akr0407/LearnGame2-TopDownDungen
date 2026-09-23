@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://b4dn2g4qmai2" path="res://scenes/key.tscn" id="7_85g3d"]
 [ext_resource type="Script" uid="uid://c7usvtm5eg4c6" path="res://scripts/door.gd" id="7_o6xl0"]
 [ext_resource type="Texture2D" uid="uid://bnjxosgj6em8t" path="res://assets/tileset/doors_lever_chest_animation.png" id="8_tipki"]
+[ext_resource type="PackedScene" uid="uid://sohh0ex6ko4y" path="res://scenes/chest.tscn" id="10_choun"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tefeu"]
 bg_color = Color(0, 0, 0, 1)
@@ -1363,9 +1364,6 @@ shape = SubResource("RectangleShape2D_kmsdu")
 position = Vector2(422, -95)
 shape = SubResource("RectangleShape2D_hs3mr")
 
-[node name="Key" parent="." unique_id=2052663126 instance=ExtResource("7_85g3d")]
-position = Vector2(345, -60)
-
 [node name="Player" parent="." unique_id=1009891327 groups=["player"] instance=ExtResource("1_o5qli")]
 position = Vector2(107, -178)
 
@@ -1373,15 +1371,22 @@ position = Vector2(107, -178)
 position = Vector2(60, 109)
 
 [node name="Enemy" parent="." unique_id=795345009 groups=["enemies"] instance=ExtResource("5_tbgi4")]
-position = Vector2(422, -9)
+position = Vector2(235, 123)
 
 [node name="Enemy2" parent="." unique_id=1589853220 groups=["enemies"] instance=ExtResource("5_tbgi4")]
-position = Vector2(238, 176)
+position = Vector2(224, 179)
 key_scene = ExtResource("7_85g3d")
 drops_key = true
 
 [node name="Room2Spawn" type="Marker2D" parent="." unique_id=1294386653]
 position = Vector2(420, 94)
+
+[node name="Chest" parent="." unique_id=1098856329 instance=ExtResource("10_choun")]
+position = Vector2(422, 164)
+
+[node name="Chest2" parent="." unique_id=1479062024 instance=ExtResource("10_choun")]
+position = Vector2(427, -45)
+gives_potion = false
 
 [connection signal="pressed" from="UI/HUD/GameOverPanel/RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="pressed" from="UI/HUD/EscapePanel/PlayAgainButton" to="." method="_on_play_again_button_pressed"]

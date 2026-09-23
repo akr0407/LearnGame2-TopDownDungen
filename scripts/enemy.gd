@@ -6,6 +6,7 @@ var health = 40
 var is_attacking = false
 var player_in_range = false
 var player_in_attack_range = false
+var is_dead = false
 #var distance_to_player = 0.0
 
 @export var key_scene: PackedScene
@@ -29,10 +30,26 @@ func take_damage(amount) -> void:
 			var key = key_scene.instantiate()
 			get_parent().add_child(key)
 			key.position = position
-
-		queue_free()
+			
+		is_dead = true
+		
+		if facing_direction == "up":
+			$AnimatedSprite2D.play("death_up")
+		elif facing_direction == "down":
+			$AnimatedSprite2D.play("death_down")
+		elif facing_direction == "right":
+			$AnimatedSprite2D.play("death_right")
+		elif facing_direction == "left":
+			$AnimatedSprite2D.play("death_left")
+		
+		return
+		
 
 func _physics_process(_delta: float) -> void:
+	if is_dead:
+		velocity = Vector2.ZERO
+		return
+	
 	var player = get_tree().get_first_node_in_group("player")
 	#distance_to_player = position.distance_to(player.position)
 	if player.is_dead:
@@ -118,7 +135,9 @@ func _on_damage_timer_timeout() -> void:
 func _on_animated_sprite_2d_animation_finished() -> void:
 	if str($AnimatedSprite2D.animation).begins_with("attack_"):
 		is_attacking = false
-
+	
+	if str($AnimatedSprite2D.animation).begins_with("death_"):
+		queue_free()
 
 func _on_animated_sprite_2d_frame_changed() -> void:
 	if is_attacking == true and $AnimatedSprite2D.frame == 3 and player_in_attack_range == true:
