@@ -11,6 +11,9 @@ var is_dead = false
 
 @export var key_scene: PackedScene
 @export var drops_key = false
+
+@export var potion_scene: PackedScene
+@export var drops_potion = false
 #@export var detection_range = 150
 
 func take_damage(amount) -> void:
@@ -30,6 +33,11 @@ func take_damage(amount) -> void:
 			var key = key_scene.instantiate()
 			get_parent().add_child(key)
 			key.position = position
+		
+		if drops_potion:
+			var potion = potion_scene.instantiate()
+			get_parent().add_child(potion)
+			potion.position = position
 			
 		is_dead = true
 		
