@@ -1,8 +1,10 @@
 extends CharacterBody2D
 
+signal defeated
+
 const SPEED = 80.0
+
 var facing_direction = "down"
-var health = 40
 var is_attacking = false
 var player_in_range = false
 var player_in_attack_range = false
@@ -10,6 +12,7 @@ var is_dead = false
 var knockback_velocity = Vector2.ZERO
 #var distance_to_player = 0.0
 
+@export var health = 40
 @export var key_scene: PackedScene
 @export var drops_key = false
 
@@ -162,6 +165,7 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 
 	if str($AnimatedSprite2D.animation).begins_with("death_"):
 		print("Death animation finished - removing enemy")
+		defeated.emit()
 		queue_free()
 
 func _on_animated_sprite_2d_frame_changed() -> void:

@@ -46,3 +46,7 @@ func _on_play_again_button_pressed() -> void:
 
 func _on_exit_button_pressed() -> void:
 	get_tree().quit()
+
+
+func _on_boss_defeated() -> void:
+	$UI/HUD/EscapePanel.visible = true
